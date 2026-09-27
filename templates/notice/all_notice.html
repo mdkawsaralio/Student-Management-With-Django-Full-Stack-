@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{%load static%}
+
+{% block link %}
+<link href="{% static 'all_notice.css'%}" rel="stylesheet" >
+
+{% endblock link %}
+
+{% block content %}
+
+
+
+<div class="notice-section">
+                <div class="section-title ">
+                    <h3>All Notice</h3>
+                    
+                </div>
+                {% for i in post %}
+                    <div class="notice">
+                        <a href="{% url 'notice_details' i.slug%}">
+                        <h4>
+                            {{ i.title }}
+                            
+                        </h4>
+                        <span>{{i.author}} | {{i.created_at|timesince}} | {{i.updated_at| timesince}}</span>
+                        <p>
+                            {{ i.short_description}}
+                        </p>
+
+                    </div>
+                    </a>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock  %}

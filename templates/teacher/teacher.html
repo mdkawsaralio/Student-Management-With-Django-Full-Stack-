@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{%load static%}
+
+{% block link %}
+<link href="{% static 'teacher.css'%}" rel="stylesheet" >
+
+{% endblock link %}
+
+{% block content %}
+
+
+<div class="teacher-list">
+                <h3>Teacher List</h3>
+                <div class="bangla">
+                    <table>
+                        <caption>Bangla</caption>
+                        <tr>
+                            <th>#</th>
+                            <th>Teacher Name</th>
+                            <th>Designation</th>
+                            <th>Address</th>
+                        </tr>
+            
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+      
+            <div>
+                    </div>
+
+{% endblock  %}

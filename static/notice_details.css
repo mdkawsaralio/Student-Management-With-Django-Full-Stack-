@@ -1,0 +1,13 @@
+.notice-details{
+ margin-top: 2rem;
+ margin-left: 8rem;
+ margin-right: 8rem;
+}
+
+
+.notice-details p {
+    text-align: justify;
+}
+.notice{
+    padding: 1rem;
+}

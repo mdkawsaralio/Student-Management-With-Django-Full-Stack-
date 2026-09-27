@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{%load static%}
+
+{% block link%}
+ <link href="{%static 'home.css'%}" rel="stylesheet">
+{%endblock%}
+
+
+
+{% block content %}
+
+<div class="container">
+
+    <!-- School Image -->
+    <img src="{% static 'image/school_photo.jpg' %}"
+         class="img-fluid w-100 mt-3 school-image"
+         alt="School">
+
+    <div class="row g-4 mt-2">
+
+        <!-- Main Content -->
+        <div class="col-md-8">
+
+            <div class="notice-section">
+                <div class="section-title ">
+                    <h3>Latest Notices</h3>
+                    <span>Stay updated with school news</span>
+                    
+                </div>
+                {% for i in notice %}
+
+                    <div class="notice-card mt-3">
+
+                        <h4>
+                            {{ i.title }}
+                            
+                        </h4>
+                        <span>{{i.author}} | {{i.created_at|timesince}} | {{i.updated_at| timesince}}</span>
+                        <p>
+                            {{ i.short_description|truncatechars:150 }}
+                        </p>
+
+                        <a href="{% url 'notice_details' i.slug%}" class="read-more ">
+                            Read More →
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Right Sidebar -->
+        <div class="col-md-4">
+
+            <div class="about-card">
+
+                <h3>About Us</h3>
+
+                <p>
+                    Welcome to our school management system.
+                    We are committed to providing quality education
+                    and creating a supportive learning environment.
+                </p>
+                <div class="social-link mt-2">
+                <h3>Social Link</h3>
+                <ul>
+                <li><a href="">Facebook</a></li>
+                <li><a href="">Instagram</a></li>
+                <li><a href="">Linked In</a></li>
+                </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}

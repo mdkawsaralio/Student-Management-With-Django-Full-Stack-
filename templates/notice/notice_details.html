@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{%load static%}
+
+{% block link %}
+<link href="{% static 'notice_details.css'%}" rel="stylesheet" >
+
+{% endblock link %}
+
+{% block content %}
+
+
+
+<div class="notice-details">
+                <h3>{{post.title}}</h3>
+                <span>{{post.author}} | {{post.created_at|timesince}} | {{post.updated_at| timesince}}</span>
+                    <div class="notice">
+                        <p>
+                            {{ post.description}}
+                        </p>
+
+                    </div>
+
+                    </div>
+
+{% endblock  %}
