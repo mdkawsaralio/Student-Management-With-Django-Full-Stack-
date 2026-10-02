@@ -7,6 +7,13 @@ import os
 
 import dj_database_url
 
+# Load a local .env file (only used on your computer; Render uses its own env vars)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -14,15 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Core / security
 # ---------------------------------------------------------------------
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-only-insecure-key-change-me')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'k+n0)cvurqb3!6nqh7e&$n22)@7b)xwz7$1g(n-ly7=-#%!ac=')
 
-# Set DEBUG=True locally (e.g. in your terminal or .env). Defaults to False.
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# Render sets the RENDER env var automatically, so DEBUG is False there
+DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = []
 
-# Render sets this automatically for web services
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -31,7 +37,6 @@ if RENDER_EXTERNAL_HOSTNAME:
 if DEBUG:
     ALLOWED_HOSTS += ['localhost', '127.0.0.1']
 
-# Production-only security settings
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
@@ -41,6 +46,7 @@ if not DEBUG:
 
 # ---------------------------------------------------------------------
 # Applications
+# NOTE: 'cloudinary_storage' must come BEFORE 'django.contrib.staticfiles'
 # ---------------------------------------------------------------------
 
 INSTALLED_APPS = [
@@ -49,7 +55,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'dashboard',
     'notice',
     'phonenumber_field',
@@ -88,8 +96,7 @@ WSGI_APPLICATION = 'student.wsgi.application'
 
 
 # ---------------------------------------------------------------------
-# Database
-# Uses DATABASE_URL on Render (PostgreSQL), SQLite locally.
+# Database (PostgreSQL on Render via DATABASE_URL, SQLite locally)
 # ---------------------------------------------------------------------
 
 DATABASES = {
@@ -123,26 +130,52 @@ USE_TZ = True
 
 
 # ---------------------------------------------------------------------
-# Static & media files
+# Static files
 # ---------------------------------------------------------------------
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Only include the folder if it exists (avoids collectstatic warnings)
 STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+
+# ---------------------------------------------------------------------
+# Media files + Cloudinary
+# Same code runs locally and on Render. Cloudinary is used whenever the
+# 3 credentials exist (in your local .env or in Render's environment).
+# ---------------------------------------------------------------------
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'SECURE': True,
+}
+
+USE_CLOUDINARY = all([
+    CLOUDINARY_STORAGE['CLOUD_NAME'],
+    CLOUDINARY_STORAGE['API_KEY'],
+    CLOUDINARY_STORAGE['API_SECRET'],
+])
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+            if USE_CLOUDINARY
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 
 # ---------------------------------------------------------------------

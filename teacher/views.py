@@ -4,9 +4,9 @@ from .models import Teacher
 
 
 def teacher_list(request):
-    teacher=Teacher.objects.all()
+    teacher=Teacher.objects.all().order_by('subject','name')
     context={
-        'teacher':teacher
+        'teacher':teacher,
     }
     return render(request,'teacher/teacher.html',context)
 

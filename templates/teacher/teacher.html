@@ -10,28 +10,38 @@
 
 {% block content %}
 
-
 <div class="teacher-list">
                 <h3>Teacher List</h3>
-                <div class="bangla">
+                {% regroup teacher by subject as subject_list%}
+                {%for i in subject_list %}
+                <div class="list">
                     <table>
-                        <caption>Bangla</caption>
+                        <caption>{{i.grouper}}</caption>
                         <tr>
                             <th>#</th>
                             <th>Teacher Name</th>
                             <th>Designation</th>
                             <th>Address</th>
                         </tr>
-            
+                        {% for teacher in subject_list %}
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{forloop.counter}}</td>
+                            <td>
+                                <a href="{% url 'teacher_details' teacher.id %}">
+                                {{teacher.name}}
+                                </a></td>
+                            <td>{{teacher.designation}}</td>
+                            <td>{{teacher.address}}</td>
                         </tr>
+                        {%endfor%}
                     </table>
-      
-            <div>
-                    </div>
+                    
+                </div>
+                <br>
+                <br>
+                {%endfor%}
+                </div>
+                
+
 
 {% endblock  %}

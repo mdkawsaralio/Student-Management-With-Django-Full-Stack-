@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+
+{%load static%}
+
+{% block link %}
+<link href="{% static 'teacher.css'%}" rel="stylesheet" >
+
+{% endblock link %}
+
+{% block content %}
+
+<div class="teacher-list">
+                <h3>Teacher Details</h3>
+                <div class="list">
+                    <table>
+                         <tr style="text-align: center;">
+                            <td colspan="2"><img src="{{teacher.photo.url}}" alt="{{teacher.name}}"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Name</td>
+                            <td>{{teacher.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Designation</td>
+                            <td>{{teacher.designation}}</td>
+                        </tr>
+
+                         <tr>
+                            <td>Subject</td>
+                            <td>{{teacher.subject}}</td>
+                        </tr>
+                         <tr>
+                            <td>Address</td>
+                            <td>{{teacher.address}}</td>
+                            
+                        </tr>
+                         <tr>
+                            <td>Phone Number</td>
+                            <td>{{teacher.phone_number}}</td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                <br>
+                <br>
+                {%endfor%}
+                </div>
+                
+
+
+{% endblock  %}
