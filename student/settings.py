@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     'notice',
     'phonenumber_field',
     'teacher',
+    'account',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -189,6 +192,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ---------------------------------------------------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 

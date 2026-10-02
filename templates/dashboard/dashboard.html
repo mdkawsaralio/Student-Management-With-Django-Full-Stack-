@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'dashboard.css' %}">
+{% endblock link %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+
+        {% include "dashboard/sidebar.html" %}
+
+    </aside>
+
+
+    <!-- Right Content -->
+    <main class="dashboard-content">
+
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+
+            {% if user.is_authenticated %}
+                <p>Welcome, <strong>{{ user.username }}</strong></p>
+            {% endif %}
+        </div>
+
+
+        <!-- Statistics -->
+        <div class="cards">
+
+            <div class="card">
+                <h3>Users</h3>
+                <p>{{ total_users }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Teachers</h3>
+                <p>{{ total_teachers }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Students</h3>
+                <p>{{ total_students }}</p>
+            </div>
+
+            <div class="card">
+                <h3>Notices</h3>
+                <p>{{ total_notices }}</p>
+            </div>
+
+        </div>
+
+
+        <!-- Recent Notices -->
+        <div class="recent-section">
+
+            <h2>Recent Notices</h2>
+
+            {% for notice in recent_notices %}
+
+                <div class="notice">
+                    <h3>{{ notice.title }}</h3>
+
+                    <p>
+                        {{ notice.short_description }}
+                    </p>
+
+                    <small>
+                        {{ notice.created_at|date:"d M Y" }}
+                    </small>
+                </div>
+
+            {% empty %}
+
+                <p>No notices available.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock content %}
