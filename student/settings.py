@@ -190,3 +190,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ---------------------------------------------------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+print("CLOUDINARY CLOUD:", CLOUDINARY_STORAGE['CLOUD_NAME'])
+print("CLOUDINARY API KEY EXISTS:", bool(CLOUDINARY_STORAGE['API_KEY']))
+print("CLOUDINARY SECRET EXISTS:", bool(CLOUDINARY_STORAGE['API_SECRET']))
+print("USE_CLOUDINARY:", USE_CLOUDINARY)

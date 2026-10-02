@@ -11,9 +11,9 @@ def teacher_list(request):
     return render(request,'teacher/teacher.html',context)
 
 
-def teacher_details(request,pk):
-    teacher=Teacher.objects.get(pk=pk)
+def teacher_details(request,id):
+    teacher=Teacher.objects.get(id=id)
     context={
         'teacher':teacher
     }
-    return render(request,'teacher/teacher_details.html',teacher)
+    return render(request,'teacher/teacher_details.html',context)
