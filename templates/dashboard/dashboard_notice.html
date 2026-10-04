@@ -32,7 +32,7 @@
                             <td>{{i.author}}</td>
                             <td>{{i.created_at}}</td>
                             <td>{{i.updated_at}}</td>
-                            <td><a href=""> <i class="fa-solid fa-pen-to-square ms-3 me-4" style="color: rgb(4, 66, 113);"></i></a>  <a href=""> <i class="fa-regular fa-trash-can" style="color: rgb(1, 82, 144);"></i></a></td>
+                            <td><a href="{% url 'update_notice' i.slug %}"> <i class="fa-solid fa-pen-to-square ms-3 me-4" style="color: rgb(4, 66, 113);"></i></a>  <a href="{% url 'delete_notice' i.slug %}"> <i class="fa-regular fa-trash-can" style="color: rgb(1, 82, 144);"></i></a></td>
                         </tr>
                         {%endfor%}
                     </table>
