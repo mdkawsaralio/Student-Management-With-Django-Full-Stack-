@@ -15,7 +15,7 @@ def notice_details(request,slug):
 
 
 def all_notice(request):
-    post=Notice.objects.all()
+    post=Notice.objects.filter(status='published')
     
     context={
         'post':post,

@@ -1,0 +1,51 @@
+
+{% extends "dashboard/dashboard_template.html" %}
+
+{%load static%}
+
+{%block link2%}
+<link rel="stylesheet" href="{% static 'dashboard/dashboard_notice.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+{%endblock%}
+
+
+
+{%block right_sidebar%}
+
+<div class="dashboard-notice">
+    <h3>All Notice</h3>
+        <h6 class="add-new"><a href=""> Add New</a></h6>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Notice Title</th>
+                            <th>Author</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Edit/Remove</th>
+                        </tr>
+                        {%for i in notice%}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.title}}</td>
+                            <td>{{i.author}}</td>
+                            <td>{{i.created_at}}</td>
+                            <td>{{i.updated_at}}</td>
+                            <td><a href=""> <i class="fa-solid fa-pen-to-square ms-3 me-4" style="color: rgb(4, 66, 113);"></i></a>  <a href=""> <i class="fa-regular fa-trash-can" style="color: rgb(1, 82, 144);"></i></a></td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+
+</div>
+
+
+{%endblock%}
+
+
+
+
+
+
+
+

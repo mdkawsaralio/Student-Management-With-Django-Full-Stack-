@@ -1,58 +1,48 @@
 <ul class="sidebar-menu">
 
-    <li>
-        <a href="{% url 'dashboard' %}"
-           class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-            🏠 Dashboard
-        </a>
-    </li>
+   <li>
+    <a href="{% url 'dashboard' %}"
+       class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        Dashboard
+    </a>
+</li>
 
     <li>
-        <a href="#"
+        <a href="{%url 'dashboard_notice'%}"
            class="{% if request.resolver_match.url_name == 'users' %}active{% endif %}">
-            👤 Users
+            Users
         </a>
     </li>
 
     <li>
-        <a href="#"
+        <a href=""
            class="{% if request.resolver_match.url_name == 'teacher_list' %}active{% endif %}">
-            👨‍🏫 Teachers
+            Teachers
         </a>
     </li>
 
     <li>
-        <a href="#"
+        <a href=""
            class="{% if request.resolver_match.url_name == 'student_list' %}active{% endif %}">
-            🎓 Students
+            Students
         </a>
     </li>
 
     <li>
-        <a href="#"
-           class="{% if request.resolver_match.url_name == 'notice_list' %}active{% endif %}">
-            📢 Notices
+        <a href="{% url 'dashboard_notice'%}"
+           class="{% if request.resolver_match.url_name == 'dashboard_notice' %}active{% endif %}">
+            Notices
         </a>
     </li>
 
     <li>
-        <a href="#"
+        <a href=""
            class="{% if request.resolver_match.url_name == 'class_list' %}active{% endif %}">
-            📚 Classes
+            Classes
         </a>
     </li>
-
-    <li>
-        <a href="#"
-           class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
-            👤 My Profile
-        </a>
-    </li>
-
     <li class="logout">
-        <a href="{% url 'logout' %}">
-            🚪 Logout
-        </a>
+        <a href="{% url 'logout' %}">Logout</a>
     </li>
 
 </ul>

@@ -1,0 +1,96 @@
+
+
+.add-new{
+    text-align: right;
+    margin: 1rem;
+
+}
+
+.add-new a{
+    padding: .5rem;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 12px;
+    text-decoration: none;
+
+}
+
+.add-new a:hover{
+    background-color: black;
+    color: white;
+}
+
+.dashboard-notice {
+    width: 100%;
+    flex: 1;              
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.dashboard-notice table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard-notice th {
+    background-color: #414c56;
+    color: white;
+    padding: 15px 18px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 15px;
+}
+.dashboard-notice th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.dashboard-notice th:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* Table cells */
+.dashboard-notice td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e9ecef;
+    color: #495057;
+    font-size: 15px;
+}
+
+/* Row hover */
+.dashboard-notice tbody tr:hover,
+.dashboard-notice tr:hover {
+    background-color: #f0efef;
+}
+
+.dashboard-notice td{
+    border-bottom: 1px solid #e9ecef;
+}
+
+.dashboard-notice th,
+.dashboard-notice td {
+    border-right: 1px solid #e9ecef;
+}
+
+/* No line after the last column */
+.dashboard-notice th:last-child,
+.dashboard-notice td:last-child {
+    border-right: none;
+}
+/* First column */
+.dashboard-notice td:first-child,
+.dashboard-notice th:first-child {
+    text-align: center;
+    width: 60px;
+}
+.dashboard-notice td a {
+    text-decoration: none;
+    color: #212529;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.dashboard-notice td a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}

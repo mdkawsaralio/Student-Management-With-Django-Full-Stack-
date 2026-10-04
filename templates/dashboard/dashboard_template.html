@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'dashboard/dashboard_template.css' %}?v=2">
+
+
+{%block link2%}
+
+{% endblock%}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+    <div class="left-sidebar">
+        {% include "dashboard/sidebar.html" %}
+
+    </div>
+
+
+    <div class="right-sidebar">
+
+        {%block right_sidebar %}
+
+
+        {%endblock%}
+
+    </div>
+
+</div>
+
+
+{% endblock content %}
