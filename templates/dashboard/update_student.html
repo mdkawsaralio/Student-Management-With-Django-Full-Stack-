@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{%load static%}
 
 {% load crispy_forms_tags%}
 
 {%block link%}
+
 
 
 {% endblock %}
@@ -11,9 +11,9 @@
 
 {% block content %}
 
-<div class="create-notice"style="margin: 2rem 9rem 2rem 9rem;">
-    <h3 style="margin:1rem 0 1rem 0;">Add New Notice</h3>
-    <form method="POST" action="{% url 'create_notice'%}">
+<div class="update-notice" style="margin: 2rem 9rem 2rem 9rem;">
+    <h3 style="margin: 1rem 0 1rem 0;"> Update Student</h3>
+    <form method="POST">
     {% csrf_token %}
 
     {{form|crispy}}

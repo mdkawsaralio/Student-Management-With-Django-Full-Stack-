@@ -27,5 +27,6 @@ urlpatterns = [
     path('login/',include('account.urls')),
     path("logout/", logout_view, name="logout"),
     path('dashboard',include('dashboard.urls')),
+    path('student',include('student_info.urls')),
         
 ]

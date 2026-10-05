@@ -4,7 +4,7 @@
 {%load static%}
 
 {%block link2%}
-<link rel="stylesheet" href="{% static 'dashboard/dashboard_notice.css'%}">
+<link rel="stylesheet" href="{% static 'dashboard/dashboard_notice.css'%}?=v2">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 {%endblock%}
@@ -15,7 +15,7 @@
 
 <div class="dashboard-notice">
     <h3>All Notice</h3>
-        <h6 class="add-new"><a href=""> Add New</a></h6>
+        <h6 class="add-new"><a href="{% url 'create_notice'%}"> Add New</a></h6>
                     <table>
                         <tr>
                             <th>#</th>
@@ -28,7 +28,7 @@
                         {%for i in notice%}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{i.title}}</td>
+                            <td><a href="{% url 'notice_details' i.slug %}">{{i.title}}<a/></td>
                             <td>{{i.author}}</td>
                             <td>{{i.created_at}}</td>
                             <td>{{i.updated_at}}</td>

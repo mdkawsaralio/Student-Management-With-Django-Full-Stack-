@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+
+{%load static%}
+
+{% block link %}
+<link href="{% static 'teacher_details.css'%}" rel="stylesheet" >
+
+{% endblock link %}
+
+{% block content %}
+
+<div class="teacher-list">
+                <h3>Student Details</h3>
+                <div class="list">
+                    <table>
+                         <tr style="text-align: center;">
+    <td colspan="2">
+        {% if student.photo %}
+            <img src="{{ student.photo.url }}"
+                 alt="{{ student.name }}"
+                 width="300"
+                 height="380">
+        {% endif %}
+    </td>
+</tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>{{Student.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Father's Name</td>
+                            <td>{{student.father_name}}</td>
+                        </tr>
+                           <tr>
+                            <td>Mother's Name</td>
+                            <td>{{student.mother_name}}</td>
+                        </tr>
+                           <tr>
+                            <td>Class</td>
+                            <td>{{student.class_name}}</td>
+                        </tr>
+                           <tr>
+                            <td>Roll</td>
+                            <td>{{student.roll}}</td>
+                        </tr>
+   <tr>
+                            <td>Address</td>
+                            <td>{{student.Address}}</td>
+                        </tr>
+                         <tr>
+                            <td>Gardian's Contact Number</td>
+                            <td>{{teacher.gardian_phone_number}}</td>
+                        </tr>
+                         <tr>
+                            <td>Exam</td>
+                            <td>
+                                {%for i in student.exam%}
+                                <a href="{%url 'student_result' student.id i.id%}" style="margin-right:5px; text-decoration: None;">{{i.exam}}</a>
+                            </td>
+                        </tr>
+            
+                    </table>
+                    
+                </div>
+                </div>
+                
+
+
+{% endblock  %}

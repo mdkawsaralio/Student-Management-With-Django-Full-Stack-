@@ -17,7 +17,7 @@ def login_view(request):
             return redirect('dashboard')
     else:
         form=AuthenticationForm()
-        return render(request,'account/login.html',{'form':form})
+    return render(request,'account/login.html',{'form':form})
     
     
     

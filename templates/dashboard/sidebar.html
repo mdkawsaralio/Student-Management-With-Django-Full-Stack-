@@ -8,22 +8,22 @@
 </li>
 
     <li>
-        <a href="{%url 'dashboard_notice'%}"
-           class="{% if request.resolver_match.url_name == 'users' %}active{% endif %}">
+        <a href="{%url 'dashboard_user'%}"
+           class="{% if request.resolver_match.url_name == 'dashboard_user' %}active{% endif %}">
             Users
         </a>
     </li>
 
     <li>
-        <a href=""
-           class="{% if request.resolver_match.url_name == 'teacher_list' %}active{% endif %}">
+        <a href="{%url 'dashboard_teacher'%}"
+           class="{% if request.resolver_match.url_name == 'dashboard_teacher' %}active{% endif %}">
             Teachers
         </a>
     </li>
 
     <li>
-        <a href=""
-           class="{% if request.resolver_match.url_name == 'student_list' %}active{% endif %}">
+        <a href="{%url 'dashboard_student'%}"
+           class="{% if request.resolver_match.url_name == 'dashboard_student' %}active{% endif %}">
             Students
         </a>
     </li>
@@ -35,12 +35,6 @@
         </a>
     </li>
 
-    <li>
-        <a href=""
-           class="{% if request.resolver_match.url_name == 'class_list' %}active{% endif %}">
-            Classes
-        </a>
-    </li>
     <li class="logout">
         <a href="{% url 'logout' %}">Logout</a>
     </li>

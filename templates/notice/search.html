@@ -13,10 +13,10 @@
 
 <div class="notice-section">
                 <div class="section-title ">
-                    <h3>All Notice</h3>
+                    <h3>Search- {{keyword}} </h3>
                     
                 </div>
-                {% for i in post %}
+                {% for i in notice %}
                     <div class="notice">
                         <a href="{% url 'notice_details' i.slug%}">
                         <h4>

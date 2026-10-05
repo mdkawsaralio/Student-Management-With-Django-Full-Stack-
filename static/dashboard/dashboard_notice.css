@@ -29,7 +29,11 @@
 
 .dashboard-notice table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    overflow: hidden;
+    border-radius: 12px;
+    border-spacing: 0;
+    box-shadow: 0 2px 10px rgb(138, 138, 138);
 }
 
 .dashboard-notice th {

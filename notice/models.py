@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 
@@ -33,7 +34,7 @@ class Notice(models.Model):
                 slug=f"{self.title}-{counter}"
                 counter+=1
                 
-                self.slug=slug
+            self.slug=slug
                 
         super().save(*args, **kwargs)
         

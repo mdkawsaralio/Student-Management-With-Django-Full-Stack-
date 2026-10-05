@@ -1,0 +1,51 @@
+
+{% extends "dashboard/dashboard_template.html" %}
+
+{%load static%}
+
+{%block link2%}
+<link rel="stylesheet" href="{% static 'dashboard/dashboard_notice.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+{%endblock%}
+
+
+{%block right_sidebar%}
+
+<div class="dashboard-notice">
+    <h3>All User</h3>
+        <h6 class="add-new"><a href="{% url 'create_user'%}"> Add New User</a></h6>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Group</th>
+                            <th>Staf Status</th>
+                            <th>Edit/Remove</th>
+                        </tr>
+        {%for i in user %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.username}}</td>
+                            <td>{% for group in i.groups.all %}
+        {{ group.name }}
+    {% empty %}
+        No Group
+    {% endfor %}</td>
+                            <td>{{i.is_staff}}</td>
+                            <td><a href="{% url 'update_user' i.id %}"> <i class="fa-solid fa-pen-to-square ms-3 me-4" style="color: rgb(4, 66, 113);"></i></a>  <a href="{% url 'delete_user' i.id %}"> <i class="fa-regular fa-trash-can" style="color: rgb(1, 82, 144);"></i></a></td>
+                        </tr>
+                        {%endfor%}
+                    </table>
+
+</div>
+
+
+{%endblock%}
+
+
+
+
+
+
+
+
