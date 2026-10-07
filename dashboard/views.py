@@ -24,9 +24,12 @@ def dashboard(request):
     student_count=Student.objects.all().count()
     context={
         'teacher_count':teacher_count,
-        'student_count':student_count
+        'student_count':student_count,
     }
     return render(request, 'dashboard/dashboard.html',context)
+
+
+
 
 
 @role_required('Admin','Teacher','Student')
@@ -103,6 +106,28 @@ def student_details(request,id):
         'exam':exam
     }
     return render(request,'dashboard/dashboard_student_details.html',context)
+
+
+@role_required('Student')
+def my_student_details(request):
+
+    student = Student.objects.get(user=request.user)
+
+    exam = Exam.objects.filter(
+        result__student=student
+    ).distinct()
+
+    context = {
+        'student': student,
+        'exam': exam
+    }
+
+    return render(
+        request,
+        'dashboard/dashboard_student_details.html',
+        context
+    )
+
 
 
 

@@ -15,7 +15,9 @@
 
 <div class="dashboard-notice">
     <h3>All Teacher</h3>
+    {% if is_admin %}
         <h6 class="add-new"><a href="{% url 'create_teacher'%}"> Add New Teacher</a></h6>
+        {% endif %}
                     <table>
                         <tr>
                             <th>#</th>
@@ -24,7 +26,9 @@
                             <th>Subject</th>
                             <th>Address </th>
                             <th>Phone Number </th>
+                            {% if is_admin %}
                             <th>Edit/Remove</th>
+                            {% endif %}
                         </tr>
                         {%for i in teacher%}
                         <tr>
@@ -34,7 +38,9 @@
                             <td>{{i.subject}}</td>
                             <td>{{i.address}}</td>
                             <td>{{i.phone_number}}</td>
+                            {% if is_admin %}
                             <td><a href="{% url 'update_teacher' i.id %}"> <i class="fa-solid fa-pen-to-square ms-3 me-4" style="color: rgb(4, 66, 113);"></i></a>  <a href="{% url 'delete_teacher' i.id %}"> <i class="fa-regular fa-trash-can" style="color: rgb(1, 82, 144);"></i></a></td>
+                            {% endif %}
                         </tr>
                         {%endfor%}
                     </table>

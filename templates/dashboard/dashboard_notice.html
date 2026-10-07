@@ -15,7 +15,9 @@
 
 <div class="dashboard-notice">
     <h3>All Notice</h3>
+    {% if is_admin or is_teacher%}
         <h6 class="add-new"><a href="{% url 'create_notice'%}"> Add Notice</a></h6>
+        {% endif %}
                     <table>
                         <tr>
                             <th>#</th>
@@ -32,8 +34,10 @@
                             <td>{{i.author}}</td>
                             <td>{{i.created_at}}</td>
                             <td>{{i.updated_at}}</td>
+                            {% if is_admin or is_teacher%}
                             <td><a href="{% url 'update_notice' i.slug %}"> <i class="fa-solid fa-pen-to-square ms-3 me-4" style="color: rgb(4, 66, 113);"></i></a>  <a href="{% url 'delete_notice' i.slug %}"> <i class="fa-regular fa-trash-can" style="color: rgb(1, 82, 144);"></i></a></td>
                         </tr>
+                        {% endif %}
                         {%endfor%}
                     </table>
 

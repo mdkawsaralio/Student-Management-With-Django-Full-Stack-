@@ -11,17 +11,14 @@ def role_required(*roles):
             user=request.user
             
             if user.is_superuser:
-                return view(*args, **kwargs)
-            if user.groups.filter(name__in=roles).exist():
-                return view(*args, **kwargs)
+                return view(request,*args, **kwargs)
+            if user.groups.filter(name__in=roles).exists():
+                return view(request,*args, **kwargs)
             
             raise PermissionDenied
         return wrapper
     return decorator
 
 def user_in_group(user, group_name):
-
-    if user.is_superuser:
-        return True
 
     return user.groups.filter(name=group_name).exists()

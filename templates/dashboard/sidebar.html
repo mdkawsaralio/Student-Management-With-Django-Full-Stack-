@@ -6,34 +6,48 @@
         Dashboard
     </a>
 </li>
-
+{% if is_admin %}
     <li>
         <a href="{%url 'dashboard_user'%}"
            class="{% if request.resolver_match.url_name == 'dashboard_user' %}active{% endif %}">
             Users
         </a>
     </li>
-
+    {%endif%}
+{% if is_admin or is_teacher %}
     <li>
         <a href="{%url 'dashboard_teacher'%}"
            class="{% if request.resolver_match.url_name == 'dashboard_teacher' %}active{% endif %}">
             Teachers
         </a>
     </li>
-
+{% endif %}
+{% if is_admin or is_teacher %}
     <li>
         <a href="{%url 'dashboard_student'%}"
            class="{% if request.resolver_match.url_name == 'dashboard_student' %}active{% endif %}">
             Students
         </a>
     </li>
-
+{% endif %}
+{% if is_admin or is_teacher or is_student%}
     <li>
         <a href="{% url 'dashboard_notice'%}"
            class="{% if request.resolver_match.url_name == 'dashboard_notice' %}active{% endif %}">
             Notices
         </a>
     </li>
+{% endif %}
+
+{% if is_student%}
+    <li>
+        <a href="{% url 'my_student_details'%}"
+           class="{% if request.resolver_match.url_name == 'my_student_details' %}active{% endif %}">
+            My Profile
+        </a>
+    </li>
+
+{% endif %}
 
     <li class="logout">
         <a href="{% url 'logout' %}">Logout</a>
