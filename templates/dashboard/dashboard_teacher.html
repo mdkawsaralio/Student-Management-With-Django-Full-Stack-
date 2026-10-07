@@ -15,7 +15,7 @@
 
 <div class="dashboard-notice">
     <h3>All Teacher</h3>
-        <h6 class="add-new"><a href="{% url 'create_teacher' %}"> Add New Teacher</a></h6>
+        <h6 class="add-new"><a href="{% url 'create_teacher'%}"> Add New Teacher</a></h6>
                     <table>
                         <tr>
                             <th>#</th>
@@ -26,7 +26,7 @@
                             <th>Phone Number </th>
                             <th>Edit/Remove</th>
                         </tr>
-        {%for i in teacher%}
+                        {%for i in teacher%}
                         <tr>
                             <td>{{forloop.counter}}</td>
                             <td><a href="{% url 'teacher_details' i.id %}">{{i.name}}<a/></td>

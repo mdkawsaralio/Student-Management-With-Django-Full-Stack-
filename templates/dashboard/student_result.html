@@ -16,14 +16,23 @@
                     <span>{{student.name}}</span>
                     <span>{{result.name}}</span>
                     <table>
+<tr>
+                            <th>Subject</th>
+                            <th>Mark</th>
+                            <th>GPA</th>
+                        </tr>
+
                         {%for i in result%}
                         <tr>
                             <td>{{i.subject.name}}</td>
-                            <td>{{i.mark}}</td>
-                            <td>{{i.i.gpa}}</td>
+                            <td>{{i.marks}}</td>
+                            <td>{{i.GPA}}</td>
                         </tr>
-                       
-            
+                       {% endfor %}
+                            <tr>
+                            <td colspan="2" style="text-align: right;">CGPA</td>
+                            <td>{{cgpa}}</td>
+                        </tr>
                     </table>
                     
                 </div>

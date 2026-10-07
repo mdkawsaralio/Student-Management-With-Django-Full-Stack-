@@ -16,8 +16,8 @@
                     <table>
                          <tr style="text-align: center;">
     <td colspan="2">
-        {% if student.photo %}
-            <img src="{{ student.photo.url }}"
+        {% if student.image %}
+            <img src="{{ student.image.url }}"
                  alt="{{ student.name }}"
                  width="300"
                  height="380">
@@ -26,7 +26,7 @@
 </tr>
                         <tr>
                             <td>Name</td>
-                            <td>{{Student.name}}</td>
+                            <td>{{student.name}}</td>
                         </tr>
                         <tr>
                             <td>Father's Name</td>
@@ -46,17 +46,18 @@
                         </tr>
    <tr>
                             <td>Address</td>
-                            <td>{{student.Address}}</td>
+                            <td>{{student.address}}</td>
                         </tr>
                          <tr>
                             <td>Gardian's Contact Number</td>
-                            <td>{{teacher.gardian_phone_number}}</td>
+                            <td>{{student.gardian_phone_number}}</td>
                         </tr>
                          <tr>
                             <td>Exam</td>
                             <td>
-                                {%for i in student.exam%}
-                                <a href="{%url 'student_result' student.id i.id%}" style="margin-right:5px; text-decoration: None;">{{i.exam}}</a>
+                                {%for i in exam%}
+                                <a href="{%url 'student_result' student.id i.id%}" style="margin-right:5px; text-decoration: None;">{{i}}</a>
+                                {% endfor %}
                             </td>
                         </tr>
             

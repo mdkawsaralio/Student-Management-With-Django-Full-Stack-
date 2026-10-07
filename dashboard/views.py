@@ -1,21 +1,24 @@
 from django.contrib import messages
+from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render,redirect
-from django.contrib.auth.decorators import login_required
 from notice.models import Notice
 from notice.forms import NoticeForm
 from student_info.models import Student,Result,Exam
-from student_info.forms import StudentForm
+from student_info.forms import StudentForm,ResultFormset,UpdateResultFormset
 from teacher.models import Teacher
 from teacher.forms import TeacherForm
 from django.db.models import Q
 from django.contrib.auth.models import User
 from account.forms import UserCreateForm
+from django.contrib.auth.models import Group
+from account.decorators import role_required, user_in_group
+
 
 # Create your views here.
 
 
-@login_required(login_url='login')
+@role_required('Admin', 'Teacher', 'Student')
 def dashboard(request): 
     teacher_count=Teacher.objects.all().count()
     student_count=Student.objects.all().count()
@@ -26,7 +29,7 @@ def dashboard(request):
     return render(request, 'dashboard/dashboard.html',context)
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher','Student')
 def noticepage(request):
     notice=Notice.objects.all()
     context={
@@ -36,7 +39,7 @@ def noticepage(request):
 
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def addnotice(request):
     if request.method=='POST':
         form=NoticeForm(request.POST)
@@ -51,7 +54,7 @@ def addnotice(request):
         
         
         
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def updatenotice(request,slug):
     notice=get_object_or_404(Notice,slug=slug)
     
@@ -68,7 +71,7 @@ def updatenotice(request,slug):
 
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def deletenotice(request,slug):
     notice=get_object_or_404(Notice,slug=slug)
     
@@ -81,7 +84,7 @@ def deletenotice(request,slug):
 
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def student_list(request):
     student=Student.objects.all()
     context={
@@ -91,62 +94,97 @@ def student_list(request):
 
 
 
-
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def student_details(request,id):
     student=Student.objects.get(id=id)
+    exam=Exam.objects.filter(result__student=student).distinct()
     context={
-        'student':student
+        'student':student,
+        'exam':exam
     }
     return render(request,'dashboard/dashboard_student_details.html',context)
 
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def student_result(request,student_id,exam_id):
     student=get_object_or_404(Student,id=student_id)
     exam=get_object_or_404(Exam,id=exam_id)
     result=Result.objects.filter(student=student,exam=exam)
+    total_mark=sum(i.marks for i in result)
+    average_mark=total_mark/len(result) if result else 0
+    
+    if average_mark >=80:
+        cgpa="A+"
+    elif average_mark >=70:
+        cgpa="A"
+    elif average_mark >=60:
+        cgpa="A-"
+    elif average_mark >=50:
+        cgpa="B"
+    elif average_mark>=40:
+        cgpa="C"
+    elif average_mark>=33:
+        cgpa="D"
+    else:
+        cgpa="F"
+    
     context={
         'student':student,
         'exam':exam,
-        'result':result
+        'result':result,
+        'cgpa':cgpa
     }
     return render(request,'dashboard/student_result.html',context)
     
     
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def create_student(request):
     if request.method=="POST":
-        student=StudentForm(request.POST)
-        if student.is_valid():
-            student.save()
-            return redirect('dashboard_student')
+        user=UserCreateForm(request.POST)
+        student=StudentForm(request.POST,request.FILES)
+        result=ResultFormset(request.POST,prefix='result')
+        if student.is_valid() and result.is_valid() and user.is_valid():
+            with transaction.atomic():
+                user=user.save()
+                user.groups.add(Group.objects.get(name='Student'))
+                student=student.save(commit=False)
+                student.user=user
+                student.save()
+                result.instance=student
+                result.save()
+                return redirect('dashboard_student')
     else:
         student=StudentForm()
-    return render(request,'dashboard/create_student.html',{'student':student})
+        result=ResultFormset(prefix='result')
+        user=UserCreateForm()
+    return render(request,'dashboard/create_student.html',{'student':student,'result':result,'user':user})
 
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def update_student(request,id):
     student= get_object_or_404(Student,id=id)
     if request.method=="POST":
-        form=StudentForm(request,instance=student)
-        if form.is_valid():
-            form.save()
+        form=StudentForm(request.POST,request.FILES,instance=student)
+        result=UpdateResultFormset(request.POST,instance=student,prefix='result')
+        
+        if form.is_valid() and result.is_valid() :
+            student=form.save()
+            result.instance=student
+            result.save()
             return redirect('dashboard_student')
-    
     else:
         form=StudentForm(instance=student)
+        result=UpdateResultFormset(instance=student, prefix='result')
         
-    return render(request,'dashboard/update_student.html',{'form':form})
+    return render(request,'dashboard/update_student.html',{'form':form,'result':result})
 
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def delete_student(request,id):
     student=get_object_or_404(Student,id=id)
     
@@ -160,7 +198,7 @@ def delete_student(request,id):
     return redirect('dashboard_student')
 
 
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def search_student(request):
     keyword=request.GET.get('keyword').strip()
     
@@ -177,26 +215,32 @@ def search_student(request):
     return render(request,'dashboard/dashboard_student.html',context)
 
 
-
-@login_required(login_url='login')
+@role_required('Admin','Teacher')
 def teacher_list(request):
     teacher=Teacher.objects.all()
     return render(request,'dashboard/dashboard_teacher.html',{'teacher':teacher})
 
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def create_teacher(request):
     if request.method=='POST':
-        form=TeacherForm(request.POST)
-        if form.is_valid:
-            form.save()
-            return redirect('dashboard_teacher')
+        user=UserCreateForm(request.POST)
+        form=TeacherForm(request.POST,request.FILES)
+        if form.is_valid() and user.is_valid():
+            with transaction.atomic():
+                user=user.save()
+                user.groups.add(Group.objects.get(name='Teacher'))
+                form=form.save(commit=False)
+                form.user=user
+                form.save()
+                return redirect('dashboard_teacher')
     else:
         form=TeacherForm()
+        user=UserCreateForm()
         
-    return render(request,'dashboard/create_teacher.html',{'form':form})
+    return render(request,'dashboard/create_teacher.html',{'form':form,'user':user})
 
-
+@role_required('Admin',)
 def update_teacher(request,id):
     teacher=get_object_or_404(Teacher,id=id)
     if request.method=='POST':
@@ -211,7 +255,7 @@ def update_teacher(request,id):
         
 
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def delete_teacher(request,id):
     teacher=get_object_or_404(Teacher,id=id)
     
@@ -225,7 +269,7 @@ def delete_teacher(request,id):
     return redirect('dashboard_teacher')
 
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def search_teacher(request):
     keyword=request.GET.get('keyword').strip()
     
@@ -243,15 +287,13 @@ def search_teacher(request):
 
 
 
-
-
-@login_required(login_url='login')
+@role_required('Admin',)
 def user_list(request):
-    user=User.objects.all()
-    return render(request,'dashboard/dashboard_user.html',{'user':user})
+    users=User.objects.all()
+    return render(request,'dashboard/dashboard_user.html',{'users':users})
 
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def create_user(request):
     if request.method=='POST':
         form=UserCreateForm(request.POST)
@@ -263,7 +305,7 @@ def create_user(request):
         
     return render(request,'dashboard/create_user.html',{'form':form})
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def update_user(request,id):
     user=get_object_or_404(User,id=id)
     if request.method=='POST':
@@ -279,7 +321,7 @@ def update_user(request,id):
         
 
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def delete_user(request,id):
     user=get_object_or_404(User,id=id)
     
@@ -293,7 +335,7 @@ def delete_user(request,id):
     return redirect('dashboard_user')
 
 
-@login_required(login_url='login')
+@role_required('Admin',)
 def search_user(request):
     keyword=request.GET.get('keyword').strip()
     

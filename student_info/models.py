@@ -4,11 +4,15 @@ from django.core.files.base import ContentFile
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from PIL import Image,ImageOps
+from django.contrib.auth.models import User
 # Create your models here.
 
-
 class Student(models.Model):
-    
+    user = models.OneToOneField(
+            User,
+            on_delete=models.CASCADE,
+            related_name='student',blank=True,null=True
+        )
     name=models.CharField(max_length=70)
     father_name=models.CharField(max_length=70)
     mother_name=models.CharField(max_length=70)
@@ -24,15 +28,15 @@ class Student(models.Model):
     
     
     def save(self,*args, **kwargs):
-            if self.photo and not self.photo._committed:
-                img=Image.open(self.photo)
+            if self.image and not self.image._committed:
+                img=Image.open(self.image)
                 img = ImageOps.exif_transpose(img)  
                 img = img.convert("RGB")            
                 img = ImageOps.fit(img, (413, 531), Image.LANCZOS, centering=(0.5, 0.3))
                 buffer = BytesIO()
                 img.save(buffer, format="JPEG", quality=90, optimize=True)
-                filename = os.path.splitext(os.path.basename(self.photo.name))[0] + ".jpg"
-                self.photo.save(filename, ContentFile(buffer.getvalue()), save=False)
+                filename = os.path.splitext(os.path.basename(self.image.name))[0] + ".jpg"
+                self.image.save(filename, ContentFile(buffer.getvalue()), save=False)
     
             super().save(*args, **kwargs)
             
@@ -62,9 +66,9 @@ class Exam(models.Model):
 
 
 class Result(models.Model):
-    student=models.ForeignKey("Student", on_delete=models.CASCADE)
-    exam=models.ForeignKey('Exam',on_delete=models.CASCADE)
-    subject=models.ForeignKey('Subject',on_delete=models.CASCADE)
+    student=models.ForeignKey("Student", on_delete=models.CASCADE,related_name='result')
+    exam=models.ForeignKey('Exam',on_delete=models.CASCADE,related_name='result')
+    subject=models.ForeignKey('Subject',on_delete=models.CASCADE,related_name='result')
     marks=models.FloatField()
     GPA=models.CharField(max_length=3)
     
@@ -75,8 +79,6 @@ class Result(models.Model):
             name='unique_student_exam_subject'
         )
     ]
-    
-    
     
     def calculate_gpa(self):
         if self.marks>=80:

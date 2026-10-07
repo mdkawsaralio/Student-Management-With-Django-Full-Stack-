@@ -4,6 +4,7 @@ from django.core.files.base import ContentFile
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from PIL import Image,ImageOps
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -21,6 +22,11 @@ choice= [
 ]
 
 class Teacher(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='teacher',blank=True,null=True
+    )
     name=models.CharField(max_length=150)
     teacher_code=models.CharField(max_length=20)
     designation=models.CharField( max_length=70)

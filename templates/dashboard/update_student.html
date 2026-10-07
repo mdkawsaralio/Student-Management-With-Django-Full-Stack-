@@ -1,30 +1,120 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags%}
-
-{%block link%}
-
-
-
-{% endblock %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
 
-<div class="update-notice" style="margin: 2rem 9rem 2rem 9rem;">
-    <h3 style="margin: 1rem 0 1rem 0;"> Update Student</h3>
-    <form method="POST">
-    {% csrf_token %}
+<div class="update-notice" style="margin: 2rem 9rem;">
 
-    {{form|crispy}}
-    
-    <button type="submit" class="post"> Summit </button>
+    <h3 style="margin: 1rem 0;">
+        Update Student
+    </h3>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+
+        <!-- Student Information -->
+
+        {{ form|crispy }}
+
+
+        <!-- Student Results -->
+
+        <h4>Student Results</h4>
+
+        {{ result.management_form }}
+
+        <div id="result-forms">
+
+            {% for form in result %}
+
+                <div class="result-form">
+                    {{ form|crispy }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- Add Subject -->
+
+        <button type="button" id="add-subject">
+            + Add Subject
+        </button>
+
+
+        <br><br>
+
+
+        <!-- Submit -->
+
+        <button type="submit" class="post">
+            Update Student
+        </button>
 
     </form>
+
 </div>
 
 
-{% endblock  %}
+<!-- Empty form for JavaScript -->
+
+<div id="empty-form" style="display: none;">
+
+    {{ result.empty_form|crispy }}
+
+</div>
 
 
+<script>
 
+document.addEventListener("DOMContentLoaded", function () {
+
+    const addButton =
+        document.getElementById("add-subject");
+
+    const resultForms =
+        document.getElementById("result-forms");
+
+    const totalForms =
+        document.getElementById("id_result-TOTAL_FORMS");
+
+    const emptyForm =
+        document.getElementById("empty-form").innerHTML;
+
+
+    addButton.addEventListener("click", function () {
+
+        let formIndex =
+            parseInt(totalForms.value);
+
+        let newForm =
+            emptyForm.replace(
+                /__prefix__/g,
+                formIndex
+            );
+
+        let newDiv =
+            document.createElement("div");
+
+        newDiv.classList.add("result-form");
+
+        newDiv.innerHTML = newForm;
+
+        resultForms.appendChild(newDiv);
+
+        totalForms.value =
+            formIndex + 1;
+
+    });
+
+});
+
+</script>
+
+
+{% endblock %}
