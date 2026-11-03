@@ -144,9 +144,7 @@ USE_TZ = True
 # Static files
 # ---------------------------------------------------------------------
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
+
 
 
 # ---------------------------------------------------------------------
@@ -170,6 +168,14 @@ USE_CLOUDINARY = all([
     CLOUDINARY_STORAGE['API_KEY'],
     CLOUDINARY_STORAGE['API_SECRET'],
 ])
+# Static files
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+] if (BASE_DIR / 'static').exists() else []
 
 STORAGES = {
     "default": {
@@ -180,12 +186,12 @@ STORAGES = {
         ),
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
+# Compatibility with django-cloudinary-storage's collectstatic command
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ---------------------------------------------------------------------
 # Email
