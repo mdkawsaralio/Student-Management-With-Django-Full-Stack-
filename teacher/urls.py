@@ -7,4 +7,3 @@ urlpatterns = [
     path('<int:id>',views.teacher_details,name='teacher_details'),
     path('teacher-list/',views.teacher_list,name='teacher_list'),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
