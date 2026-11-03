@@ -55,9 +55,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'cloudinary',
-    'cloudinary_storage', 
+    'cloudinary_storage',
+
+    'django.contrib.staticfiles',
+
     'dashboard',
     'notice',
     'phonenumber_field',

@@ -36,19 +36,48 @@ class Teacher(models.Model):
     photo=models.ImageField(upload_to='teacher/',blank=True,null=True)
     
     
-    def save(self,*args, **kwargs):
+    def save(self, *args, **kwargs):
         if self.photo and not self.photo._committed:
-            img=Image.open(self.photo)
-            img = ImageOps.exif_transpose(img)  
-            img = img.convert("RGB")            
-            img = ImageOps.fit(img, (413, 531), Image.LANCZOS, centering=(0.5, 0.3))
-            buffer = BytesIO()
-            img.save(buffer, format="JPEG", quality=90, optimize=True)
-            filename = os.path.splitext(os.path.basename(self.photo.name))[0] + ".jpg"
-            self.photo.save(filename, ContentFile(buffer.getvalue()), save=False)
+
+            try:
+                self.photo.seek(0)
+
+                img = Image.open(self.photo)
+                img = ImageOps.exif_transpose(img)
+                img = img.convert("RGB")
+
+                img = ImageOps.fit(
+                    img,
+                    (413, 531),
+                    Image.Resampling.LANCZOS,
+                    centering=(0.5, 0.3)
+                )
+
+                buffer = BytesIO()
+
+                img.save(
+                    buffer,
+                    format="JPEG",
+                    quality=90,
+                    optimize=True
+                )
+
+                filename = (
+                    os.path.splitext(
+                        os.path.basename(self.photo.name)
+                    )[0] + ".jpg"
+                )
+
+                self.photo = ContentFile(
+                    buffer.getvalue(),
+                    name=filename
+                )
+
+            except Exception:
+                raise
 
         super().save(*args, **kwargs)
-   
+       
     def __str__(self):
         return self.name
     

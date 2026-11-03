@@ -266,17 +266,28 @@ def create_teacher(request):
     return render(request,'dashboard/create_teacher.html',{'form':form,'user':user})
 
 @role_required('Admin',)
-def update_teacher(request,id):
-    teacher=get_object_or_404(Teacher,id=id)
-    if request.method=='POST':
-        form=TeacherForm(request.POST,instance=teacher)
+def update_teacher(request, id):
+    teacher = get_object_or_404(Teacher, id=id)
+
+    if request.method == 'POST':
+        form = TeacherForm(
+            request.POST,
+            request.FILES,
+            instance=teacher
+        )
+
         if form.is_valid():
             form.save()
-            return redirect('database_teacher')
-        
+            return redirect('dashboard_teacher')
+
     else:
-        form=TeacherForm(instance=teacher)
-    return render(request, 'dashboard/update_teacher.html',{'form':form})
+        form = TeacherForm(instance=teacher)
+
+    return render(
+        request,
+        'dashboard/update_teacher.html',
+        {'form': form}
+    )
         
 
 
