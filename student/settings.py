@@ -176,7 +176,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ] if (BASE_DIR / 'static').exists() else []
-
 STORAGES = {
     "default": {
         "BACKEND": (
@@ -186,12 +185,15 @@ STORAGES = {
         ),
     },
     "staticfiles": {
-    "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-},
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
 }
 
-# Compatibility with django-cloudinary-storage's collectstatic command
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Compatibility with django-cloudinary-storage
+STATICFILES_STORAGE = (
+    "django.contrib.staticfiles.storage.StaticFilesStorage"
+)
+
 
 # ---------------------------------------------------------------------
 # Email
