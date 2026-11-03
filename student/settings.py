@@ -56,9 +56,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'cloudinary',
-    'cloudinary_storage',
-
     'django.contrib.staticfiles',
+    'cloudinary_storage',
 
     'dashboard',
     'notice',
@@ -170,12 +169,14 @@ USE_CLOUDINARY = all([
 ])
 # Static files
 
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ] if (BASE_DIR / 'static').exists() else []
+
 STORAGES = {
     "default": {
         "BACKEND": (
@@ -188,11 +189,6 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
-
-# Compatibility with django-cloudinary-storage
-STATICFILES_STORAGE = (
-    "django.contrib.staticfiles.storage.StaticFilesStorage"
-)
 
 
 # ---------------------------------------------------------------------

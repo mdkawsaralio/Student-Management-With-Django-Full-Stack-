@@ -1,0 +1,76 @@
+.total {
+    display: flex;
+    justify-content: center;    
+    align-items: center;        
+    gap: 5rem;
+    margin-top: 5rem;
+    
+}
+
+/* .total table {
+    border: 1px solid rgb(97, 95, 95);
+    border-radius: 12px;
+    border-collapse: separate;  
+    border-spacing: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+} */
+
+
+.total table {
+
+    width: 250px;
+    margin: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.total th {
+    background-color: #414c56;
+    color: white;
+    padding: 15px 18px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 15px;
+}
+.total th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.total th:last-child {
+    border-top-right-radius: 12px;
+}
+
+/* Table cells */
+.total td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e9ecef;
+    color: #495057;
+    font-size: 15px;
+}
+
+/* Row hover */
+.total tbody tr:hover,
+.total tr:hover {
+    background-color: #f0efef;
+}
+
+.total th,
+.total td {
+    border-right: 1px solid #e9ecef;
+}
+
+/* No line after the last column */
+.total th:last-child,
+.total td:last-child {
+    border-right: none;
+}
+/* First column */
+.total td:first-child,
+.total th:first-child {
+    text-align: center;
+    width: 60px;
+}
